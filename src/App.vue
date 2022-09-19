@@ -21,7 +21,7 @@ export default {
 </script>
 <template>
   <main>
-    <h1>Busca CEP</h1>
+    <h1>Busca CEP:</h1>
     <form @submit.prevent="search">
       <input type="text" v-model="cep" />
       <button type="submit">Buscar</button>
