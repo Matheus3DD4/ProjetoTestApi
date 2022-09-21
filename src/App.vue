@@ -4,37 +4,51 @@ export default {
   data() {
     return {
       cep: "",
-      resultado: {},
+      endereco: {},
     };
   },
   methods: {
     async search() {
-      const url = `https://www.cepaberto.com/api/v3/cep?cep=$(this.cep)`;
-      this.resultado = await axios.get(url, {
-        headers: {
-          Authorization: "Token token=370ec793fbff3d58085a0f5f84279004",
-        },
-      });
+      const url = `https://viacep.com.br/ws/${this.cep}/json/`;
+      const { data } = await axios.get(url);
+      this.endereco = data;
     },
   },
 };
 </script>
+
 <template>
   <main>
-    <h1>Busca CEP:</h1>
-    <form @submit.prevent="search">
-      <input type="text" v-model="cep" />
-      <button type="submit">Buscar</button>
+    <forms class="forms" @submit.prevent="search">
+      <h1>Buscar CEP</h1>
+      <div class="infos">
+        <label for="cep">CEP</label>
+        <input type="text" id="cep" v-model="cep" />
+      </div>
+      <button @click="search()" type="submit">buscar</button>
+    </forms>
+    <form class="end">
+      <label for="rua">Rua</label>
+      <input type="text" v-model="endereco.logradouro" />
+      <label for="numero">Número</label>
+      <input type="text" v-model="endereco.numero" />
+      <label for="bairro">Bairro</label>
+      <input type="text" v-model="endereco.bairro" />
     </form>
-    {{ resultado }}
+    {{ endereco }}
   </main>
 </template>
-<style>
-label {
-  margin: 0%;
-}
 
-.form {
-  border-radius: 5px;
+<style>
+.forms {
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 20%;
+}
+.infos {
+  display: flex;
+  flex-direction: column;
 }
 </style>
